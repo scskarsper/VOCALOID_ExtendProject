@@ -234,7 +234,7 @@ extern "C" wchar_t* __cdecl AheadLib_g2paGetDefaultPhoneme()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 导出函数:音节分析
-extern "C" int __cdecl AheadLib_g2paGetSyllable(int pt1,int* pt2,int* pt3,int* pt4)
+extern "C" int __cdecl AheadLib_g2paGetSyllable(int pt1,char** pt2,char** pt3,char** pt4)
 {
 	return 1;
 }
@@ -299,9 +299,37 @@ wchar_t* getRouterPhoneme(wchar_t* Lyric)
 	router_Put(0,gIn);
 
 	int R=router_Get(0,gOut);
-
-	ret=wstring2ptr(gOut->phonme);
-	
+	if(R==0)
+	{
+		if(gOut->cn==1)
+		{
+			ret=wstring2ptr(gOut->phonme);
+		}else if(gOut->cn>1)
+		{
+			wchar_t result[255]=L"";
+			int maxcn=gOut->cn;
+			wchar_t tmp[255];
+			int h=0;
+			int i=0;
+			while(true)
+			{
+				if(gOut->phonme[i]==0)
+				{
+					tmp[h]=0;
+					wsprintfW(result,L"%s%s",result,tmp);
+					h=0;
+					maxcn--;
+					if(maxcn==0)break;
+				}else if(gOut->phonme[i]>0 && gOut->phonme[i]<255)
+				{
+					tmp[h]=gOut->phonme[i];
+					h++;
+				}
+				++i;
+			}
+			ret=wstring2ptr(result);
+		}
+	}
 	FreeLibrary(hdll);
 	free(gIn);
 	return ret;
