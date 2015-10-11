@@ -53,10 +53,12 @@ g2paIn* getPhonmeArg=NULL;//全局变量：传入Put的参数
 
 char dllpath[1024];//全局变量：当前DLL名称
 char dllbasepath[1024];//全局变量：当前DLL名称
-char threechar_lang[4];
 char inibasedir[1024];
 char inipath[1024];//全局变量：当前DLL名称
+char rotpath[1024];//全局变量：当前DLL名称
 char routerpath[1024];//全局变量：当前DLL名称
+char Lang[4];
+char* dllname;
 
 bool isRightLanguage=false;
 //////////////////////////////////////////////////////////////////////////////
@@ -136,42 +138,217 @@ wcstring* ReadDicSection(char* SectionName,int* bcount)
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 
+///////////////////////////////////////////////////////////////////////////////////
+//程序初始化入口
+int LoadInits(HMODULE hModule)
+{
+	DisableThreadLibraryCalls(hModule);
+
+		DWORD len = GetModuleFileNameA(hModule, dllpath, sizeof dllpath);
+		dllname=PathFindFileName(dllpath);
+		strncpy(dllbasepath,dllpath,len-strlen(dllname));
+	
+		sprintf(inibasedir,"%sPhonemeDictionary\\",dllbasepath);
+
+		CreateDirectory(inibasedir,NULL);
+	
+		sprintf(inipath,"%s%s",inibasedir,dllname);
+		inipath[strlen(inipath)-1]='i';
+		inipath[strlen(inipath)-2]='n';
+		inipath[strlen(inipath)-3]='i';
+	
+		isRightLanguage=true;
+		strcpy(Lang,wchar2char(ReadDicString("Settings",L"Language",L"   ")));
+		if(strcmp(Lang,"   ")==0 || strlen(Lang)==0)
+		{
+			Lang[0]=dllpath[len-7];
+			Lang[1]=dllpath[len-6];
+			Lang[2]=dllpath[len-5];
+		}
+
+		sprintf(rotpath,"%s%s",dllbasepath,"ywk_cache.dat");
+	
+		char* OriginRouter=wchar2char(ReadDicString("Settings",L"Router",L"g2pa4_CHS.dll"));
+		sprintf(routerpath,"%s%s",inibasedir,OriginRouter);
+		if(PathFileExists(routerpath)) return TRUE;
+
+		sprintf(routerpath,"%s%s",dllbasepath,OriginRouter);
+		if(strcmp(routerpath,dllpath)!=0)
+		{
+			if(PathFileExists(routerpath)) return TRUE;
+		}
+
+		sprintf(routerpath,"%sg2pa4_%s.dll",inibasedir,Lang);
+		if(PathFileExists(routerpath)) return TRUE;
+		sprintf(routerpath,"%sg2pa4_%s.dll",dllbasepath,Lang);
+		if(strcmp(routerpath,dllpath)!=0)
+		{
+			if(PathFileExists(routerpath)) return TRUE;
+		}
+
+		strcpy(routerpath,"");
+		return TRUE;
+}
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+//主窗口Finder
+
+UINT ReadRotValue(char* SectionName,char* FindKey)
+{
+	UINT ret=::GetPrivateProfileInt(SectionName,FindKey,0,rotpath);
+	return ret;
+}
+void WriteRotValue(char* SectionName,char* FindKey,UINT Value)
+{
+	char vstr[255];
+	sprintf(vstr,"%ld",Value);
+	::WritePrivateProfileString(SectionName,FindKey,vstr,rotpath);
+	return;
+}
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+{ 
+   DWORD dwCurProcessId = *((DWORD*)lParam);
+   DWORD dwProcessId = 0; 
+   GetWindowThreadProcessId(hwnd, &dwProcessId); 
+
+   char szhello[255];  
+   GetWindowText(hwnd,szhello,255);
+
+   if(dwProcessId == dwCurProcessId && GetParent(hwnd) == NULL && strlen(szhello)>0)
+   { 
+      *((HWND *)lParam) = hwnd;
+      return FALSE; 
+   } 
+   return TRUE;
+} 
+HWND GetMainWindow()
+{ 
+   DWORD dwCurrentProcessId = GetCurrentProcessId();
+   if(!EnumWindows(EnumWindowsProc, (LPARAM)&dwCurrentProcessId))
+   {     
+		return (HWND)dwCurrentProcessId; 
+   } 
+   return NULL;
+}
+
+const UINT BASEMENUID=100000;
+UINT EVENTMAP[255];
+void AppendMenuX(HMENU hMenuPop,LPCSTR ItemName,UINT ItemID)
+{
+	UINT Item=ReadRotValue("MENU","MNUINDEX");
+	WriteRotValue("MENU","MNUINDEX",Item+1);
+	EVENTMAP[Item]=ItemID;
+	UINT KEY=BASEMENUID+Item;
+	AppendMenu (hMenuPop,MF_STRING|MFS_ENABLED,(UINT_PTR)KEY,ItemName);//ItemName) ;
+}
+
+BOOL Menu_Hook(UINT MenuItemID)
+{
+	switch(MenuItemID)
+	{
+		case 202:ShellExecute(NULL,"open","notepad.exe",inipath,NULL,SW_SHOWNORMAL);break;
+		case 500:ShellExecute(NULL,"open","http://vocaloidyanwu.sinaapp.com/",NULL,NULL,SW_SHOWNORMAL);break;
+	}
+	return FALSE;
+}
+typedef void (*WndProc) (HWND,LONG,WPARAM,LPARAM);
+WNDPROC MENUPROC;
+void WPROC(HWND hWnd,LONG wMsg,WPARAM wParam,LPARAM lParam)
+{
+	if(wMsg==WM_COMMAND)
+	{
+		int IID=((int)wParam)-BASEMENUID;
+		UINT MID=EVENTMAP[IID];
+		if(Menu_Hook(MID))return;
+	}
+	CallWindowProc(MENUPROC,hWnd,wMsg,wParam,lParam);
+}
+void MapMenu(HWND Handle)
+{
+	MENUPROC = (WNDPROC)GetWindowLong(Handle, GWL_WNDPROC);
+	WndProc Proc=WPROC;
+	SetWindowLong(Handle, GWL_WNDPROC, (LONG)Proc);
+}
+char* GetStringResource(int Idx)
+{
+	LCID lcid =GetUserDefaultUILanguage();	
+	switch(Idx)
+	{
+		case 0:
+			if(lcid==0x804)return "扩展功能(&Y)";
+			return "Extends(&Y)";
+		case 1:
+			if(lcid==0x804)return "编辑发音字典(&E)";
+			return "Edit Ext-Phonemes Dictionary(&E)";
+		case 2:
+			if(lcid==0x804)return "%s 字典(%s)";
+			return "%s Config(%s)";
+		case 500:
+			if(lcid==0x804)return "关于言舞PROJECT(&A)";
+			return "About YANWU-PROJECT(&A)";
+	}
+}
+void PlusMenu()
+{
+	UINT CPID=ReadRotValue("VOCALOID_THREAD","PID");
+	if(CPID==(UINT)GetCurrentProcessId())
+	{
+		HWND hWindow=(HWND)ReadRotValue("VOCALOID_THREAD","Handle");
+		HMENU hMenu=(HMENU)ReadRotValue("MENU","Handle");
+		HMENU hMenuPop=(HMENU)ReadRotValue("MENU","PopMenu");
+		HMENU hMenuCHD=(HMENU)ReadRotValue("MENU","G2PAMENU");
+		
+		char EditItem[255];
+		sprintf(EditItem,GetStringResource(2),Lang,dllname);
+		AppendMenuX(hMenuCHD,EditItem,202);
+		MapMenu(hWindow);
+//		AppendMenu (hMenuPop,MF_POPUP,(UINT_PTR)hMenuCHD,GetStringResource(1));
+//		AppendMenu (hMenu,MF_POPUP,(UINT_PTR)hMenuPop,GetStringResource(0));
+	}else
+	{
+		HWND MainHandle=GetMainWindow();
+		if(MainHandle!=NULL)
+		{
+			WriteRotValue("VOCALOID_THREAD","PID",(UINT)GetCurrentProcessId());
+
+			WriteRotValue("VOCALOID_THREAD","Handle",(UINT)MainHandle);
+			HMENU hMenu=GetMenu(MainHandle);
+			WriteRotValue("MENU","Handle",(UINT)hMenu);
+			
+			HMENU hMenuPop=CreatePopupMenu();
+			WriteRotValue("MENU","PopMenu",(UINT)hMenuPop);
+			WriteRotValue("MENU","MNUINDEX",0);
+						
+			HMENU hMenuCHD=CreatePopupMenu();
+			WriteRotValue("MENU","G2PAMENU",(UINT)hMenuCHD);
+	
+			char EditItem[255];
+			sprintf(EditItem,GetStringResource(2),Lang,dllname);
+			AppendMenuX(hMenuCHD,EditItem,202);
+			AppendMenu (hMenuPop,MF_POPUP,(UINT_PTR)hMenuCHD,GetStringResource(1));
+
+			AppendMenu(hMenuPop,MF_SEPARATOR,0,"");
+			AppendMenuX(hMenuPop,GetStringResource(500),500);
+			AppendMenu (hMenu,MF_POPUP,(UINT_PTR)hMenuPop,GetStringResource(0));
+			MapMenu(MainHandle);
+		}		
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 入口函数
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
 {	
-    DWORD len = GetModuleFileNameA(hModule, dllpath, sizeof dllpath);
-	char* dllname=PathFindFileName(dllpath);
-	strncpy(dllbasepath,dllpath,len-strlen(dllname));
 	
-	sprintf(inibasedir,"%sPhonemeDictionary\\",dllbasepath);
-
-	CreateDirectory(inibasedir,NULL);
-	
-	sprintf(inipath,"%s%s",inibasedir,dllname);
-	inipath[strlen(inipath)-1]='i';
-	inipath[strlen(inipath)-2]='n';
-	inipath[strlen(inipath)-3]='i';
-	
-	isRightLanguage=true;
-	char* Lang=wchar2char(ReadDicString("Settings",L"Language",L"   "));
-	if(strcmp(Lang,"   ")==0)
+	if (dwReason == DLL_PROCESS_ATTACH || dwReason == 1)
 	{
-		Lang[0]=dllpath[len-7];
-		Lang[1]=dllpath[len-6];
-		Lang[2]=dllpath[len-5];
+		int Ret=LoadInits(hModule);
+	
+		PlusMenu();
+		
+		return Ret;
 	}
-	
-	char* OriginRouter=wchar2char(ReadDicString("Settings",L"Router",L"g2pa4_CHS.dll"));
-	sprintf(routerpath,"%s%s",inibasedir,OriginRouter);
-	if(PathFileExists(routerpath)) return TRUE;
-	sprintf(routerpath,"%s%s",dllbasepath,OriginRouter);
-	if(PathFileExists(routerpath)) return TRUE;
-	sprintf(routerpath,"%sg2pa4_%s.dll",inibasedir,Lang);
-	if(PathFileExists(routerpath)) return TRUE;
-	sprintf(routerpath,"%sg2pa4_%s.dll",dllbasepath,Lang);
-	if(PathFileExists(routerpath)) return TRUE;
-	
+
 	return TRUE;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

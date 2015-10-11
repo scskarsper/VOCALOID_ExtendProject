@@ -1,0 +1,62 @@
+﻿生成启动时间为 2015/10/12 周一 1:29:13。
+     1>项目“G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\u2pa4\u2pa4.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _WINDLL /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt u2pa4.cpp
+         u2pa4.cpp
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(91): warning C4996: 'wcsncpy': This function or variable may be unsafe. Consider using wcsncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(317) : 参见“wcsncpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(120): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(288) : 参见“wcscpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(130): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(288) : 参见“wcscpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(132): warning C4172: 返回局部变量或临时变量的地址
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(135): warning C4172: 返回局部变量或临时变量的地址
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(149): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : 参见“strncpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(151): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(155): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(161): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : 参见“strcpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(169): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(172): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(175): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(181): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(183): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(189): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(110) : 参见“strcpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(204): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(303): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(327): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : 参见“sprintf”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(472): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(191) : 参见“strncpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(474): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(288) : 参见“wcscpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(519): warning C4996: 'wcsicmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _wcsicmp. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(407) : 参见“wcsicmp”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(555): warning C4996: 'wcsicmp': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _wcsicmp. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(407) : 参见“wcsicmp”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(571): warning C4101: “mgroup_f3”: 未引用的局部变量
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(602): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(288) : 参见“wcscpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(606): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\string.h(288) : 参见“wcscpy”的声明
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(291): warning C4715: “GetStringResource”: 不是所有的控件路径都返回值
+     1>g:\bmpe\vocaloidep\vocaloid_extendproject\u2pa4\u2pa4.cpp(525): warning C4715: “getPhonemeDicValue”: 不是所有的控件路径都返回值
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\Debug\u2pa4.dll" /INCREMENTAL /NOLOGO shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\Debug\u2pa4.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\Debug\u2pa4.lib" /MACHINE:X86 /DLL Debug\u2pa4.obj
+         u2pa4.vcxproj -> G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\Debug\u2pa4.dll
+     1>已完成生成项目“G:\BMPE\VocaloidEP\VOCALOID_ExtendProject\u2pa4\u2pa4.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.60
